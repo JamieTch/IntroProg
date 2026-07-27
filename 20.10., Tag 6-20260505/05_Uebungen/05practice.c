@@ -363,11 +363,19 @@ Canvas sierpinski_carpet(Canvas c, int n, int x, int y) {
         c = sierpinski_carpet(c, n - 1, x, y);
     }
 
-    if ()
+    if (y <= power(3, n - 1))
     {
-        /* code */
+        if (x < power(3, n))
+        {
+            c = canvas_set_black(c, x, y);
+            sierpinski_carpet(c, n, x + 1, y);
+        }
     }
-    
+
+    else
+    {
+        
+    }
 
     // Sierpinski-Carpet der Ordnung 0.
     else if (n == 0)
