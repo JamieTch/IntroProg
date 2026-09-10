@@ -10,7 +10,7 @@ Auf diesem Blatt geht es um Rekursion.
 
 #include <stdio.h>
 #include "05_canvas.h"
-#include "/Users/A200303818/Documents/Physik (B.Sc)/4. Semester/IntroProg/16.10., Tag 4-20260505 ✅/03_Uebungen/03practice.c"
+#include "/Users/Jamie.Tchassanti/Repositories/IntroProg/16.10., Tag 4-20260505 ✅/03_Uebungen/03practice.c"
 
 /*
 Zeichne eine vertikale Linie der Höhe `height` mit unterstem Pixel an Position `(x, y)`.
@@ -355,26 +355,115 @@ Diese Funktion soll den Sierpinski Carpet der Ordnung `n` auf die Canvas zeichne
 
 _Benutzen Sie keine Schleifen, die Aufgabe soll über Rekursion gelöst werden!_
 */
+/*
+Canvas sierpinski_hilfsfunktion(Canvas c, int a, int n, int x, int y) { 
+    
+    if (n > 0)
+    {   
+        // If-Bedingungen für die erste Zeile.
+        if (y < power(3, n - 1))
+        {   
+            // 
+            if (x < a * power(3, n))
+            {
+            
+                sierpinski_hilfsfunktion(c, a + 1, n - 1, x, y);
+                
+                // Debugging Statement
+                if (n == 2 && x == 3)
+                {
+                    printf("Hilfsfunktion a = %d, n = %d, x = %d", a, n, x);
+                }
+
+                sierpinski_hilfsfunktion(c, a, n, x + power(3, n)/3, y);
+            }
+            return c;
+        }
+        
+        // If-Bedingungen für das fehlen des Mittelstücks.
+        
+        else if (y > (power(3, n - 1)) - 1 && y < 2 * power(3, n - 1))
+        {
+            if (x < power(3, n - 1))
+            {
+                sierpinski_hilfsfunktion(c, a + 1, n - 1, x, y);
+                sierpinski_hilfsfunktion(c, a, n, x + power(3, n)/3, y);
+            }
+            
+            else if (x >= power(3, n - 1) && x < 2 * power(3, n - 1))
+            {
+                sierpinski_hilfsfunktion(c, a, n, x + power(3, n)/3, y);
+            }
+            
+            else if (x >= 2 * power(3, n - 1) && x < power(3, n))
+            {
+                sierpinski_hilfsfunktion(c, a + 1, n - 1, x, y);
+                sierpinski_hilfsfunktion(c, a, n, x + power(3, n)/3, y);
+            }
+        return c;
+        }
+        
+        // If-Bedingung für die 'letzte' Zeile.
+        else if (y >= 2 * power(3, n - 1) && y < power(3, n))
+        {
+            if (x < power(3, n))
+            {
+                sierpinski_hilfsfunktion(c, a + 1, n - 1, x, y);
+                sierpinski_hilfsfunktion(c, a, n, x + power(3, n)/3, y);
+            }
+        }
+        return c;
+    }
+
+    // Sierpinski-Carpet der Ordnung 0.
+    else if (n == 0)
+    {
+        // printf("Hello!");
+        c = canvas_set_black(c, x, y);
+    }
+    return c;
+}
+
 Canvas sierpinski_carpet(Canvas c, int n, int x, int y) {
 
+    //
     if (n > 0)
     {
-        
-        c = sierpinski_carpet(c, n - 1, x, y);
-    }
-
-    if (y <= power(3, n - 1))
-    {
-        if (x < power(3, n))
-        {
-            c = canvas_set_black(c, x, y);
-            sierpinski_carpet(c, n, x + 1, y);
+        // If-Bedingungen für die erste Zeile. !! -> Für n = 2 schlägt die Bedingung fälschlicherweise fehl.
+        if (y < power(3, n) - 1)
+        {   
+            // Erneuter Funktionsaufruf mit n - 1 um rekursiv zu n = 0 zu kommen, was für die aktuellen Koordinaten den Pixel einzeichnet.
+            sierpinski_carpet(c, n - 1, x, y);
+            sierpinski_hilfsfunktion(c, 1, n, x + power(3, n)/3, y);
+            
+            // if (n == 2)
+            // {
+            //     printf("n = 2");
+            // }
+            
+            sierpinski_carpet(c, n, x, y + power(3, n)/3);
         }
-    }
 
-    else
-    {
+        // If-Bedinungen für das fehlen des Mittelstücks.
+        else if (y > (power(3, n - 1)) - 1 && y < 2 * power(3, n - 1))
+        {
+            // printf("Mittlere Zeile Durchlauf");
+            sierpinski_carpet(c, n - 1, x, y);
+            sierpinski_hilfsfunktion(c, 1, n, x + power(3, n)/3, y);
+            sierpinski_carpet(c, n, x, y + power(3, n)/3);
+        }
         
+        // If-Bedingung für die 'letzte' Zeile.
+        else if (y >= 2 * power(3, n - 1) && y < power(3, n))
+        { 
+            sierpinski_carpet(c, n - 1, x, y);
+            sierpinski_hilfsfunktion(c, 1, n, x + power(3, n)/3, y);
+            sierpinski_carpet(c, n, x, y + power(3, n)/3);
+        }
+        // else
+        // {
+        //     return c;
+        // }
     }
 
     // Sierpinski-Carpet der Ordnung 0.
@@ -382,14 +471,119 @@ Canvas sierpinski_carpet(Canvas c, int n, int x, int y) {
     {
         c = canvas_set_black(c, x, y);
     }
-    
-    else if ()
-    {
-        /* code */
-    }
-
     return c;
 }
+*/
+
+
+Canvas sierpinski_hilfsfunktion(Canvas c, int x_Schranke, int y_Schranke, int x_addition, int y_addition, int n, int x, int y) {
+
+    if (n > 0)
+    {
+        // If-Bedingungen für die erste Zeile.
+        if (y < y_Schranke)
+        {   
+            if (x < x_Schranke)
+            {
+                /*
+                if (x < 3) <- Das Problem hängt mit den Ungleichungen (Schranken) zusammen.
+                {
+                    sierpinski_hilfsfunktion(c, power(3, n), n - 1, x, y);
+                }
+                */
+                
+                // Das Problem hängt mit den Ungleichungen (Schranken) zusammen. Siehe nächste Zeile 'a'.
+                sierpinski_hilfsfunktion(c, x + power(3, n - 1), y + power(3, n - 1), x, y, n - 1, x, y);
+                
+                // If-Bedingungen für die erste Zeile.
+                if (y < y_addition + power(3, n - 1))
+                {   
+                    sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, x + power(3, n)/3, y);
+                    /*
+                    if (x < a * power(3, n))
+                    {
+                        sierpinski_hilfsfunktion(c, a, n, x + power(3, n)/3, y);
+                    }
+                    */
+                }
+                
+                // If-Bedingungen für das fehlen des Mittelstücks.
+                else if (y > y_addition + (power(3, n - 1)) - 1 && y < y_addition + 2 * power(3, n - 1))
+                {
+                    if (x < (x_addition + power(3, n - 1)))
+                    {
+                        sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, x + 2 * power(3, n)/3, y);
+                    }
+                    /*
+                    else if (x >= x_addition + power(3, n - 1) && x < 2 * (x_addition + power(3, n - 1)))
+                    {
+                        // Hier liegt der Fehler des Mittelstücks, welches entgegen der Bedingung, eingezeichnet wird.
+                        sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, x + (power(3, n)/3), y);
+                    }
+                    
+                    else if (x >= 2 * (x_addition + power(3, n - 1)) && x < (x_addition + power(3, n)))
+                    {
+                        sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, x + power(3, n)/3, y);
+                    }
+                    */
+                }
+                
+                // If-Bedingung für die 'letzte' Zeile.
+                else if (y >= 2 * (y_addition + power(3, n - 1)) && y < (y_addition + power(3, n)))
+                {
+                    if (x < x_addition + power(3, n))
+                    {
+                        sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, x + power(3, n)/3, y);
+                    }
+                }
+                
+                /*
+                // Rekursionsfunktionen die gebraucht werden.
+                sierpinski_hilfsfunktion(c, a, n, x + power(3, n)/3, y);
+                */
+                
+                sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, x - (x_Schranke - 1), y + power(3, n)/3);
+            }
+        }
+    }
+
+    else if (n == 0)
+    {
+        c = canvas_set_black(c, x, y);
+    }
+    return c;
+}
+
+
+Canvas sierpinski_carpet(Canvas c, int n, int x, int y) {
+    sierpinski_hilfsfunktion(c, power(3, n), power(3, n), x, y, n, x, y);
+    return c;
+}
+
+
+/*
+Canvas sierpinski_carpet(Canvas c, int n, int x, int y) {
+    if (n > 0)
+    {
+        // If-Bedingungen für die erste Zeile.
+        if (y < power(3, n))
+        {   
+            if (x < power(3, n))
+            {
+                sierpinski_carpet(c, n - 1, x, y);
+                sierpinski_carpet(c, n, x + power(3, n)/3, y);
+                sierpinski_carpet(c, n, x , y + power(3, n)/3);
+            }
+        }
+    }
+
+    else if (n == 0)
+    {
+        c = canvas_set_black(c, x, y);
+    }
+    return c;
+}
+*/
 
 /*
 Hinweis: Diese Aufgabe ist deutlich schwieriger als die vorangegangen, und ist als besondere Herausforderung gedacht :)
