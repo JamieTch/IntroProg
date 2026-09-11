@@ -529,7 +529,7 @@ Canvas sierpinski_hilfsfunktion(Canvas c, int x_Schranke, int y_Schranke, int x_
                 }
                 
                 // If-Bedingung für die 'letzte' Zeile.
-                else if (y >= 2 * (y_addition + power(3, n - 1)) && y < (y_addition + power(3, n)))
+                else if (y >= y_addition + 2 * power(3, n - 1) && y < (y_addition + power(3, n)))
                 {
                     if (x < x_addition + power(3, n))
                     {
@@ -542,11 +542,24 @@ Canvas sierpinski_hilfsfunktion(Canvas c, int x_Schranke, int y_Schranke, int x_
                 sierpinski_hilfsfunktion(c, a, n, x + power(3, n)/3, y);
                 */
                 
-                sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, x - (x_Schranke - 1), y + power(3, n)/3);
+                if (x + 1 == x_Schranke)
+                {
+                    sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, x - (power(3, n) - 1), y + power(3, n)/3);
+                }
+                
+                // else if (x < 2 * power(3, n)/3 && x + power(3, n)/3 == x_Schranke)
+                // {
+                //     sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, power(3, n)/3, y + power(3, n)/3);
+                // }
+
+                else if (x + power(3, n)/3 == x_Schranke)
+                {
+                    sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, 0, y + power(3, n)/3);
+                }
             }
         }
     }
-
+    
     else if (n == 0)
     {
         c = canvas_set_black(c, x, y);
