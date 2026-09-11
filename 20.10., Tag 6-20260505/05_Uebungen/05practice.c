@@ -547,14 +547,9 @@ Canvas sierpinski_hilfsfunktion(Canvas c, int x_Schranke, int y_Schranke, int x_
                     sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, x - (power(3, n) - 1), y + power(3, n)/3);
                 }
                 
-                // else if (x < 2 * power(3, n)/3 && x + power(3, n)/3 == x_Schranke)
-                // {
-                //     sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, power(3, n)/3, y + power(3, n)/3);
-                // }
-
                 else if (x + power(3, n)/3 == x_Schranke)
                 {
-                    sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, 0, y + power(3, n)/3);
+                    sierpinski_hilfsfunktion(c, x_Schranke, y_Schranke, x_addition, y_addition, n, x - 2 * power(3, n)/3, y + power(3, n)/3);
                 }
             }
         }
